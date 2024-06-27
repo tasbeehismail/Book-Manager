@@ -1,0 +1,31 @@
+{
+  "name": "library-manager",
+  "version": "1.0.0",
+  "description": "A simple application to manage a collection of books and authors",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tasbeehismail/Library-Manager.git"
+  },
+  "keywords": [
+    "node.js",
+    "express.js",
+    "mongoose"
+  ],
+  "author": "Tasbeeh Ismail",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tasbeehismail/Library-Manager/issues"
+  },
+  "homepage": "https://github.com/tasbeehismail/Library-Manager#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.4",
+    "nodemon": "^3.1.4"
+  }
+}
