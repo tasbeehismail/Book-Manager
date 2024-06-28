@@ -19,3 +19,8 @@ Library Manager is a Node.js application using Express.js and MongoDB (via Mongo
 
 Explore the API endpoints and usage examples in Postman:
 [Library Manager API Documentation](https://documenter.getpostman.com/view/34627138/2sA3dsnuKj)
+
+## Video Demo
+
+Watch a demonstration of testing the Library Manager API with Postman:
+[Library Manager API Testing with Postman](https://youtu.be/mgICE_Hh-sU)
