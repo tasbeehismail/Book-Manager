@@ -14,10 +14,28 @@ export const addAuthor = async (req, res) => {
 
 export const getAuthors = async (req, res) => {
     try {
+        const { page, limit } = req.query;
+        const skip = (page - 1) * limit;
+
+        // Fetch the authors with pagination
         const result = await Author.find()
-        .select('-__v -updatedAt -createdAt -_id')
-        .populate('books', 'title -_id'); 
-        return res.status(200).json({ message: 'Authors fetched successfully', data: result });
+            .select('-__v -updatedAt -createdAt -_id')
+            .populate('books', 'title -_id')
+            .skip(skip)
+            .limit(parseInt(limit));
+
+        const total = await Author.countDocuments();
+
+        return res.status(200).json({
+            message: 'Authors fetched successfully',
+            data: result,
+            pagination: {
+                totalItems: total,
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(total / limit),
+                itemsPerPage: parseInt(limit)
+            }
+        });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error' });
     }

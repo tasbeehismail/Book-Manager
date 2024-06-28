@@ -14,11 +14,30 @@ export const addBook = async (req, res) => {
 
 export const getBooks = async (req, res) => {
     try {
+        const { page, limit } = req.query;
+        const skip = (page - 1) * limit;
+
+        // Fetch the books with pagination
         const result = await Book.find()
-        .select('title content author publishedDate -_id');    
-        return res.status(200).json({ message: 'Books fetched successfully', data: result });
+            .select('title content author publishedDate -_id')
+            .skip(skip)
+            .limit(parseInt(limit));
+
+        // Get the total number of books
+        const total = await Book.countDocuments();
+
+        return res.status(200).json({
+            message: 'Books fetched successfully',
+            data: result,
+            pagination: {
+                totalItems: total,
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(total / limit),
+                itemsPerPage: parseInt(limit)
+            }
+        });
     } catch (error) {
-        return res.status(500).json({ message: 'Internal server error.  Please try again later.' });
+        return res.status(500).json({ message: 'Internal server error. Please try again later.' });
     }
 };
 
