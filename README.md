@@ -22,5 +22,4 @@ Explore the API endpoints and usage examples in Postman:
 
 ## Video Demo
 
-Watch a demonstration of testing the Library Manager API with Postman:
-[Library Manager API Testing with Postman](https://youtu.be/mgICE_Hh-sU)
+Watch a demonstration of [Library Manager API Testing with Postman](https://youtu.be/mgICE_Hh-sU)
