@@ -20,7 +20,7 @@ export const getAuthors = async (req, res) => {
         // Fetch the authors with pagination
         const result = await Author.find()
             .select('-__v -updatedAt -createdAt -_id')
-            .populate('books', 'title -_id')
+            .populate('books', 'title content publishedDate -_id')
             .skip(skip)
             .limit(parseInt(limit));
 
@@ -45,7 +45,7 @@ export const getAuthor = async (req, res) => {
     try {
         const result = await Author.findById(req.params.author_id)
         .select('-__v -updatedAt -createdAt -_id')
-        .populate('books', 'title -_id'); 
+        .populate('books', 'title content publishedDate -_id'); 
         if(!result){
             return res.status(404).json({ message: 'Author not found'});
         }
