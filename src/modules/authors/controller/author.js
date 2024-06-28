@@ -14,17 +14,25 @@ export const addAuthor = async (req, res) => {
 
 export const getAuthors = async (req, res) => {
     try {
-        const { page, limit } = req.query;
+        const { page, limit, name, bio } = req.query;
         const skip = (page - 1) * limit;
 
+        let searchConditions = {};
+        if (name) {
+            searchConditions.name = { $regex: name, $options: 'i' }; // case-insensitive search
+        }
+        if (bio) {
+            searchConditions.bio = { $regex: bio, $options: 'i' }; // case-insensitive search
+        }
+
         // Fetch the authors with pagination
-        const result = await Author.find()
+        const result = await Author.find(searchConditions)
             .select('-__v -updatedAt -createdAt -_id')
             .populate('books', 'title content publishedDate -_id')
             .skip(skip)
             .limit(parseInt(limit));
 
-        const total = await Author.countDocuments();
+        const total = await Author.countDocuments(searchConditions);
 
         return res.status(200).json({
             message: 'Authors fetched successfully',
