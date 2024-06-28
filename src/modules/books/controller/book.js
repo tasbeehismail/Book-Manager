@@ -14,17 +14,26 @@ export const addBook = async (req, res) => {
 
 export const getBooks = async (req, res) => {
     try {
-        const { page, limit } = req.query;
+        const { page, limit, title, author } = req.query;
         const skip = (page - 1) * limit;
 
+        let searchConditions = {};
+        if (title) {
+            searchConditions.title = { $regex: title, $options: 'i' }; // i for case insensitivity to match upper and lower cases
+        }
+        if (author) {
+            searchConditions.author = { $regex: author, $options: 'i' };
+        }
+
+        // console.log(searchConditions.title);
         // Fetch the books with pagination
-        const result = await Book.find()
+        const result = await Book.find(searchConditions)
             .select('title content author publishedDate -_id')
             .skip(skip)
             .limit(parseInt(limit));
 
-        // Get the total number of books
-        const total = await Book.countDocuments();
+        // Get the total number of books with conditions
+        const total = await Book.countDocuments(searchConditions);
 
         return res.status(200).json({
             message: 'Books fetched successfully',
